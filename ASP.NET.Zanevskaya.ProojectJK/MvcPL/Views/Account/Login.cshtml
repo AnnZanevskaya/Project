@@ -1,0 +1,47 @@
+﻿@using MvcPL.Models
+@model LoginModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<hgroup class="title">
+    <h2>Sing in.</h2>
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="clear"></div>
+    <fieldset>
+        <legend>Log in Form</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <p>
+            <input type="submit" value="Войти" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

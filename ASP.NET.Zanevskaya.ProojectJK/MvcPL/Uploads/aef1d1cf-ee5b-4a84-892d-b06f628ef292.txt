@@ -1,0 +1,161 @@
+public sealed class BinaryTree<T> : IEnumerable<T>
+    {
+        public int Count { get; private set; }
+
+        public BinaryTree()
+        {
+            _comparison = Comparer<T>.Default.Compare;
+            if (_comparison == null)
+                throw new Exception();
+        }
+
+        public BinaryTree(IComparer<T> comparer)
+        {
+            if (comparer != null)
+                _comparison = comparer.Compare;
+            else
+                throw new ArgumentNullException("comparer");
+        }
+
+        public BinaryTree(Comparison<T> comparison)
+        {
+            if (comparison != null)
+                _comparison = comparison;
+            else
+                throw new ArgumentNullException("comparison");
+        }
+
+        public void Insert(T data)
+        {
+            Node newNode = new Node() { Data = data };
+
+            if (_head == null)
+            {
+                _head = newNode;
+                return;
+            }
+
+            Node current = _head;
+            Node parent = null;
+            int result;
+
+            do
+            {
+                result = _comparison(data, current.Data);
+                if (result > 0)
+                {
+                    parent = current;
+                    current = current.Right;
+                }
+                else if (result < 0)
+                {
+                    parent = current;
+                    current = current.Left;
+                }
+                else return;
+            }
+            while (current != null);
+
+            result = _comparison(data, parent.Data);
+            if (result > 0)
+                parent.Right = newNode;
+            else
+                parent.Left = newNode;
+            newNode.Parent = parent;
+            Count++;
+        }
+
+        public void Clear()
+        {
+            _head = null;
+        }
+
+        public IEnumerable<T> Preorder()
+        {
+            if (_head != null)
+                return Preorder(_head);
+            return new T[0];
+        }
+
+        public IEnumerable<T> Inorder()
+        {
+            if (_head != null)
+                return Inorder(_head);
+            return new T[0];
+        }
+
+        public IEnumerable<T> Postorder()
+        {
+            if (_head != null)
+                return Postorder(_head);
+            return new T[0];
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Preorder().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private IEnumerable<T> Preorder(Node current)
+        {
+            yield return current.Data;
+            if (current.Left != null)
+            {
+                foreach (var item in Preorder(current.Left))
+                    yield return item;
+            }
+            if (current.Right != null)
+            {
+                foreach (var item in Preorder(current.Right))
+                    yield return item;
+            }
+        }
+
+        private IEnumerable<T> Inorder(Node current)
+        {           
+            if (current.Left != null)
+            {
+                foreach (var item in Inorder(current.Left))
+                    yield return item;
+            }
+            yield return current.Data;
+            if (current.Right != null)
+            {
+                foreach (var item in Inorder(current.Right))
+                    yield return item;
+            }
+        }
+
+        private IEnumerable<T> Postorder(Node current)
+        {
+            if (current.Left != null)
+            {
+                foreach (var item in Postorder(current.Left))
+                    yield return item;
+            }
+            if (current.Right != null)
+            {
+                foreach (var item in Postorder(current.Right))
+                    yield return item;
+            }
+            yield return current.Data;
+        }
+
+        private Node _head;
+
+        private Comparison<T> _comparison;
+
+        private class Node
+        {
+            public Node Left { get; set; }
+            public Node Right { get; set; }
+            public Node Parent { get; set; }
+            public T Data { get; set; }
+        }       
+    }
+}

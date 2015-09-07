@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Content";
+}
+ <tbody id="tabledata">
+     @Html.Action("ContentPartial", new { id = (int)ViewBag.Id })
+ </tbody>
+<tbody id="tabledata">
+    @Html.Action("ComentsData", new { id =(int)ViewBag.Id })
+</tbody>

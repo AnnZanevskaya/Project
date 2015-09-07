@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/pagecss")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="header" class="opacity">
+        <div class="one-half">
+            <p class="site-title">@Html.ActionLink("Сatalog ", "Index", "File")</p>
+        </div>
+        <div class="one-half.last">
+            <section id="login">
+                @Html.Partial("_LoginPartial")
+            </section>
+        </div>
+    </div>
+
+    <div id="container" class="opacity">
+        <div class="content">
+            @Html.Partial("_SearchPartial")
+            @RenderBody()
+</div>
+ </div>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/jqueryval")
+            @RenderSection("scripts", required: false)
+
+            <div id="footer" class="opacity">
+                <p> Ann Zanevskaya </p>
+            </div>
+</body>
+</html>

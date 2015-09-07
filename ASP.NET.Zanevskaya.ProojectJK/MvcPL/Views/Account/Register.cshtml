@@ -1,0 +1,57 @@
+﻿@using MvcPL.Models
+@model RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<hgroup class="title">
+    <h2>Create a new account.</h2>
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="clear"></div>
+    <fieldset>
+        <legend>Registration Form</legend>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Email)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.ConfirmPassword)
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+        <div class="editor-label">
+            @Html.Label("Введите капчу")
+        </div>
+        <div class="editor-label">
+            <label>
+                <img src="@Url.Action("Captcha", "Account")" alt="captcha" />
+            </label>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Captcha)
+            @Html.ValidationMessageFor(model => model.Captcha)
+        </div>
+        <input type="submit" value="Register" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

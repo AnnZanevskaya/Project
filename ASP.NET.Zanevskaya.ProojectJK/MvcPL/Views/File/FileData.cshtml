@@ -1,0 +1,44 @@
+﻿@model PagedList.IPagedList<MvcPL.Models.FileViewModel>
+@*@model IEnumerable<MvcPL.Models.FileViewModel>*@
+@using PagedList.Mvc;
+
+@foreach (var item in Model)
+{
+    <div class="one-fourth">
+        <div class="centered">
+            <img src="~/Content/images/icon1.png" />
+        </div>
+        <center>added</center>
+        <center>@item.CreationTime.ToShortDateString()</center>
+    </div>
+    <div class="two-fourth middle">
+         <div id="menu" class="menu opacity">
+        <h3>@Html.ActionLink(@item.FileName, "Content", new { @item.Id })</h3>
+        <p>@Html.DisplayTextFor(modelItem => item.Description)</p>
+    </div>
+
+    <div class="two-fourth last">
+        <div id="menu" class="menu opacity">
+            <ul>
+                <li><border>@Html.ActionLink("Edit", "Edit", new { @item.Id })</border></li>
+                <li><border>@Html.ActionLink("Details", "Content", new { @item.Id })</border></li>
+                <li>@Html.ActionLink("Delete", "Delete", new { @item.Id })</li>
+                @*<li>
+                            @Ajax.ActionLink("Delete", "Delete", new { @item.Id },
+                    new AjaxOptions
+                    {
+                        UpdateTargetId = "tabledata",
+                        LoadingElementId = "loadingIndicator"
+                    })
+                        </li>*@
+
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+}
+@Html.ActionLink("File", "Upload")
+<div class="center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount</p>
+</div>

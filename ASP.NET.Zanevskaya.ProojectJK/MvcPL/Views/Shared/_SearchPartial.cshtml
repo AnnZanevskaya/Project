@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> sotrItems = new List<SelectListItem>();
+    sotrItems.Add(new SelectListItem { Text = "Newest", Value = "0", Selected = true });
+    sotrItems.Add(new SelectListItem { Text = "Title", Value = "1" });
+    sotrItems.Add(new SelectListItem { Text = "Most Liked", Value = "2" });
+}
+<div class="one-half">
+    @*<input type="text" name="name" id="search" />
+    <input type='button' id="submit" value='Search' />
+    <div id="results"></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                var name = $('#search').val();
+                name = encodeURIComponent(name);
+                $('#results').load("http://localhost:51805/Home/BookSearch?name=" + name);
+            });
+        });
+    </script>*@
+    @using (Html.BeginForm("Index", "File"))
+    {
+        <p>
+            @Html.TextBox("search")
+            <input type="submit" value="Search" />
+        </p>
+    }
+    
+</div>
+<div class="one-half.last">
+    <section id="right">
+        @using (Html.BeginForm("Index", "File", new { filter = (string)ViewBag.Filter, search = (string)ViewBag.Search }))
+        { 
+            <p>
+                Sort By
+                @Html.DropDownList("sort", new SelectList(sotrItems, "Value", "Text"))
+                <input type="submit" value="Ok" />
+            </p>
+        }
+    </section>
+</div>
+<div class="hr2"></div>

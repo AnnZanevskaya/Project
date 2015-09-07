@@ -1,0 +1,25 @@
+﻿@using MvcPL.Models
+@model FileViewModel
+
+<div class="center">
+    <h2>@Model.FileName</h2>
+</div>
+<div class="one-third">
+    <div class="centered">
+        <img src="~/Content/images/icon1.png" />
+    </div>
+</div>
+<div class="two-third middleFull">
+    <h4>@Model.Description</h4>
+</div>
+<div class="clear-max"></div>
+<div class="one-center">
+    <div id="menu" class="menu opacity">
+        <ul>
+            <li><border>@Html.ActionLink("Edit", "Edit", new { @Model.Id })</border></li>
+            <li><border>@Html.ActionLink("Download", "DownloadFile", new { @Model.Id })</border></li>
+            <li><border>@Html.ActionLink("View", "DownloadBytes", new { @Model.Id })</border></li>
+            <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id })</li>
+        </ul>
+    </div>
+</div>

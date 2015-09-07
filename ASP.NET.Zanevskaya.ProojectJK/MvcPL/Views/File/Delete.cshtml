@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="center">
+    <h2> Are you sure to delete @Model.FileName ?</h2>
+</div>
+<div class="two-center">
+    <div id="menu" class="menu opacity">
+
+        <ul>
+            <li><form action="@Url.Action("Delete")" method="post"><input type="submit" value="Yes" /></form></li>
+            <li>
+                <form action="@Url.Action("Index")" method="get"><input type="submit" value="No" /></form>
+            </li>
+        </ul>
+    </div>
+</div>
+

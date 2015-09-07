@@ -1,0 +1,81 @@
+﻿@*@model IEnumerable<MvcPL.Models.FileViewModel>*@
+@model PagedList.IPagedList<MvcPL.Models.FileViewModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> filterItems = new List<SelectListItem>();
+    filterItems.Add(new SelectListItem { Text = "All", Value = "0", Selected = true });
+    filterItems.Add(new SelectListItem { Text = "Text", Value = "1" });
+    filterItems.Add(new SelectListItem { Text = "Audio", Value = "2" });
+    filterItems.Add(new SelectListItem { Text = "Video", Value = "3" });
+}
+<h2>Catalog</h2>
+@using (Html.BeginForm("Index", "File"))
+{
+    <p>
+        <strong>Display</strong>
+        @Html.DropDownList("filter", new SelectList(filterItems, "Value", "Text"))
+        <input type="submit" value="Ok" />
+    </p>
+}
+
+
+@*<form action="@Url.Action("Index")">
+        <p>
+            <strong>Display</strong>
+            @Html.DropDownList("order",
+                                     new SelectList(new[] { "All", "Text", "Audio", "Video" }, (string)ViewBag.Sort))
+            <input type="submit" value="Submit" />
+        </p>
+    </form>*@
+
+@foreach (var item in Model)
+{
+    <div class="one-fourth">
+        <div class="centered">
+            <img src="~/Content/images/icon1.png" />
+        </div>
+        <center>added</center>
+        <center>@item.CreationTime.ToShortDateString()</center>
+    </div>
+    <div class="two-fourth middle">
+        <h3>@Html.ActionLink(@item.FileName, "Content", new { @item.Id })</h3>
+        <p>@Html.DisplayTextFor(modelItem => item.Description)</p>
+    </div>
+
+    <div class="two-fourth last">
+        <div id="menu" class="menu opacity">
+            <ul>
+                <li><border>@Html.ActionLink("Edit", "Edit", new { @item.Id })</border></li>
+                <li><border>@Html.ActionLink("Details", "Content", new { @item.Id })</border></li>
+                <li>@Html.ActionLink("Delete", "Delete", new { @item.Id })</li>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+}
+@Html.ActionLink("File", "Upload")
+<div class="center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+{
+    filter = (string)ViewBag.Filter,
+    sort = (string)ViewBag.Sort,
+    page,
+    search = (string)ViewBag.Search
+}))
+
+    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount</p>
+</div>
+
+
+
+
+
+
+
+
+@*<tbody id="tabledata">
+        @Html.Action("FileData", new { id = Model })
+    </tbody>*@
+
+
