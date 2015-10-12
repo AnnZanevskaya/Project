@@ -14,11 +14,13 @@ namespace MvcPL.Models
         public string FileName { get; set; }
         public string Path { get; set; }
          [StringLength(500, MinimumLength = 3)]
+       
         public string Description { get; set; }
         public double Rating { get; set; }
         public string FileType { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreationTime { get; set; }
+        public int UserId { get; set; }
     }
 }

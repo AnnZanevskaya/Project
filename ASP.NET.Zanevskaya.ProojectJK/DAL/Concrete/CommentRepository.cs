@@ -44,11 +44,6 @@ namespace DAL.Concrete
             };
         }
 
-        public DalComment GetByPredicate(Expression<Func<DalComment, bool>> f)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Create(DalComment e)
         {
             var comment = new Comment()

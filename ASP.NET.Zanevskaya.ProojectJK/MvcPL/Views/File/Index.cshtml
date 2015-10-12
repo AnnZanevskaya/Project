@@ -1,81 +1,153 @@
-﻿@*@model IEnumerable<MvcPL.Models.FileViewModel>*@
-@model PagedList.IPagedList<MvcPL.Models.FileViewModel>
+﻿@model PagedList.IPagedList<MvcPL.Models.FileViewModel>
+@using MvcPL.Infrastructure.Helpers;
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
+
+    List<SelectListItem> sotrItems = new List<SelectListItem>();
+    sotrItems.Add(new SelectListItem { Text = "Newest", Value = "date" });
+    sotrItems.Add(new SelectListItem { Text = "Title", Value = "title" });
+    sotrItems.Add(new SelectListItem { Text = "Most Liked", Value = "rating" });
+
     List<SelectListItem> filterItems = new List<SelectListItem>();
-    filterItems.Add(new SelectListItem { Text = "All", Value = "0", Selected = true });
-    filterItems.Add(new SelectListItem { Text = "Text", Value = "1" });
-    filterItems.Add(new SelectListItem { Text = "Audio", Value = "2" });
-    filterItems.Add(new SelectListItem { Text = "Video", Value = "3" });
+    filterItems.Add(new SelectListItem { Text = "All", Value = "all", Selected = true });
+    filterItems.Add(new SelectListItem { Text = "Application", Value = "application" });
+    filterItems.Add(new SelectListItem { Text = "Text", Value = "text" });
+    filterItems.Add(new SelectListItem { Text = "Audio", Value = "audio" });
+    filterItems.Add(new SelectListItem { Text = "Video", Value = "video" });
+
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "tabledata",
+        Url = Url.Action("Index"),
+        HttpMethod = "GET",
+        LoadingElementId = "progress",
+        LoadingElementDuration = 1000
+
+    };
 }
-<h2>Catalog</h2>
-@using (Html.BeginForm("Index", "File"))
-{
-    <p>
-        <strong>Display</strong>
-        @Html.DropDownList("filter", new SelectList(filterItems, "Value", "Text"))
-        <input type="submit" value="Ok" />
-    </p>
-}
-
-
-@*<form action="@Url.Action("Index")">
-        <p>
-            <strong>Display</strong>
-            @Html.DropDownList("order",
-                                     new SelectList(new[] { "All", "Text", "Audio", "Video" }, (string)ViewBag.Sort))
-            <input type="submit" value="Submit" />
-        </p>
-    </form>*@
-
-@foreach (var item in Model)
-{
-    <div class="one-fourth">
-        <div class="centered">
-            <img src="~/Content/images/icon1.png" />
+<div id="tabledata">
+    <div class="row">
+        <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 left">
+            @using (Ajax.BeginForm(options))
+            {
+                <div class="col-xs-5">
+                    <input type="text" class="form-control input-sm" placeholder="search" formmethod="post" name="search" value=@ViewBag.Search>
+                </div>
+                <div class="col-xs-3" style="margin-left: -25px">
+                    <input class="btn btn-default btn-sm " type="submit" value="search">
+                </div>
+            }
+            <div class="col-xs-4">
+                <div id="progress" class="cssload-loading" style="display: none">
+                    @Html.CreateElement()
+                    <p class="small" style="color: #9400D3">Loading..</p>
+                </div>
+            </div>
         </div>
-        <center>added</center>
-        <center>@item.CreationTime.ToShortDateString()</center>
-    </div>
-    <div class="two-fourth middle">
-        <h3>@Html.ActionLink(@item.FileName, "Content", new { @item.Id })</h3>
-        <p>@Html.DisplayTextFor(modelItem => item.Description)</p>
-    </div>
 
-    <div class="two-fourth last">
-        <div id="menu" class="menu opacity">
-            <ul>
-                <li><border>@Html.ActionLink("Edit", "Edit", new { @item.Id })</border></li>
-                <li><border>@Html.ActionLink("Details", "Content", new { @item.Id })</border></li>
-                <li>@Html.ActionLink("Delete", "Delete", new { @item.Id })</li>
-            </ul>
+        <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 right">
+            @using (Ajax.BeginForm(new AjaxOptions()
+            {
+                UpdateTargetId = "tabledata",
+                Url = Url.Action("Index", "File", new {filter = (string) ViewBag.Filter, search = (string) ViewBag.Search}),
+                HttpMethod = "GET",
+                LoadingElementId = "progress",
+                LoadingElementDuration = 1000
+            }))
+            {
+                <div class="col-xs-8 form-inline" style="float: right">
+                    <p style="float: right">
+                        Sort By:
+                        <select class="form-control input-sm" name="sort">
+                            @foreach (var item in sotrItems)
+                            {
+                                if (ViewBag.Sort == item.Value)
+                                {
+                                    <option value=@item.Value selected="selected">
+                                        @item.Text
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value=@item.Value>
+                                        @item.Text
+                                    </option>}
+                            }
+                        </select>
+                        <input class="btn btn-default btn-sm " type="submit" value="Ok">
+                    </p>
+                </div>
+            }
         </div>
     </div>
-    <div class="clear"></div>
-}
-@Html.ActionLink("File", "Upload")
-<div class="center">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new
-{
-    filter = (string)ViewBag.Filter,
-    sort = (string)ViewBag.Sort,
-    page,
-    search = (string)ViewBag.Search
-}))
+    <hr/>
 
-    <p> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageCount</p>
+    <div class="row">
+        <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 left">
+            @using (Ajax.BeginForm(options))
+            {
+                <div class="col-xs-8 form-inline">
+                    <p>
+                        Display:
+                        <select class="form-control input-sm" name="filter">
+
+                            @foreach (var item in filterItems)
+                            {
+                                if (ViewBag.Filter == item.Value)
+                                {
+                                    <option value=@item.Value selected="selected">
+                                        @item.Text
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value=@item.Value>
+                                        @item.Text
+                                    </option>
+                                }
+                            }
+                        </select>
+                        <input class="btn btn-default btn-sm mrg" type="submit" value="Ok">
+                    </p>
+                </div>
+            }
+        </div>
+        @if (User.IsInRole("User") || User.IsInRole("Administrator"))
+        {
+            <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 right">
+                @using (Html.BeginForm("Upload", "File"))
+                {
+                    <input class="btn btn-primary btn-sm right" type="submit" value="Add New Files | + " style="float: right" formmethod="get">
+                }
+            </div>
+        }
+    </div>
+
+    @Html.Partial("_FilePartial", Model)
+
+    @*<div class="center-block text-center">
+        @if (Model.PageCount > 1)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", "File", new
+            {
+                filter = (string) ViewBag.Filter,
+                sort = (string) ViewBag.Sort,
+                page,
+                search = (string) ViewBag.Search,
+            }) + "#top", PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tabledata", LoadingElementId = "progress", LoadingElementDuration = 1000 }))
+        }
+        else
+        {<div class="somearea"></div>}
+    </div>*@
 </div>
+@section Scripts {
+    <script>
 
+      $("a[href='#top']").click(function() {
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          return false;
+      });
 
-
-
-
-
-
-
-@*<tbody id="tabledata">
-        @Html.Action("FileData", new { id = Model })
-    </tbody>*@
-
-
+    </script>
+}

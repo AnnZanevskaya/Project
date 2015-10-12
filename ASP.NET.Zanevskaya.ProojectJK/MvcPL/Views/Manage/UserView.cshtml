@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MvcPL.Models.UserViewModel>
+@{
+    ViewBag.Title = "UserView";
+}
+<div class="row">
+    @if (Model.Any())
+    {
+
+        <div class="col-lg-9 col-lg-offset-2 col-mg-9 col-mg-offset-2 col-sm-9 col-sm-offset-2 col-xs-9 col-xs-offset-2 ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User Email</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@item.Email</td>
+                            <td><input class="btn btn-primary btn-xs right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Index", "Manage", new {pageName = "UserDetails", actionName ="DeleteUser"})'" /></td>
+                            <td><input class="btn btn-danger btn-xs right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("DeleteUser", "Manage", new {@item.Id})'" /></td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="col-lg-12 col-mg-12 col-sm-12 col-xs-12 text-center">
+            <h3 class="text-info">No Users to show yet...</h3>
+        </div>
+    }
+</div>
+
+
+

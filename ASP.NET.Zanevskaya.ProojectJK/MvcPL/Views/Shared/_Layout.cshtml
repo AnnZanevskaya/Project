@@ -1,37 +1,48 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/pagecss")
+    @Styles.Render("~/Content/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
+    @*@Styles.Render("~/Content/pagecss")*@
+
+    @*@Scripts.Render("~/bundles/jquerybg")*@
+    
 </head>
+
 <body>
-    <div id="header" class="opacity">
-        <div class="one-half">
-            <p class="site-title">@Html.ActionLink("Сatalog ", "Index", "File")</p>
-        </div>
-        <div class="one-half.last">
-            <section id="login">
+<header>
+    <div class="container">
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 left">
+                @Html.MvcSiteMap().SiteMapPath()
+            </div>
+            <div class="col-lg-6 col-mg-6 col-sm-6 col-xs-6 right">
                 @Html.Partial("_LoginPartial")
-            </section>
+            </div>
         </div>
     </div>
+</header>
+<section>
+    <div class="container">
+        @RenderBody()
+    </div>
+</section>
 
-    <div id="container" class="opacity">
-        <div class="content">
-            @Html.Partial("_SearchPartial")
-            @RenderBody()
-</div>
- </div>
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/jqueryval")
-            @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/scripts")
+@RenderSection("scripts", required: false)
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
-            <div id="footer" class="opacity">
-                <p> Ann Zanevskaya </p>
-            </div>
+<footer>
+    <div class="container">
+        <p>Ann Zanevskaya</p>
+    </div>
+</footer>
 </body>
 </html>

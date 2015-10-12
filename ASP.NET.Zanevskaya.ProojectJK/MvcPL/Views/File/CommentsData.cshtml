@@ -1,0 +1,59 @@
+﻿@using MvcPL.Models
+@*@model IEnumerable<MvcPL.Models.CommentViewModel>*@
+@model CommentViewModel
+@{
+    Layout = null;
+    //CommentViewModel comment = Model.FirstOrDefault();
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "tabledata",
+        Url = Url.Action("CommentsData"),
+        HttpMethod = "POST"
+    };
+
+}
+@*@using (Ajax.BeginForm(options))*@
+@using (Html.BeginForm("CommentsData", "File"))
+    {
+        @*<form method="post">*@
+        <fieldset class="text-center">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <legend>Add Comment</legend>
+            <div class="form-group">
+                <div class="col-lg-6 col-sm-6 col-xs-6 col-centered">
+                    @Html.TextAreaFor(model => model.Messange, new { @class = "form-control", rows = "4", @placeholder = "Your Comment" })
+                    @*<textarea rows="5" cols="70" name="Messange" id="Messange" wrap="soft" class="form-control"></textarea>*@
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-default" />
+                @*<button type="submit" class="btn btn-default">Add</button>*@
+            </div>
+        </fieldset>
+        @*</form>*@
+    }
+<fieldset class="text-center">
+    <legend>Latest Comments</legend>
+    @Html.Action("CommentsView", new { id = (int)ViewBag.Id })
+    @*<fieldset class="text-center">
+            <legend>Latest Comments</legend>
+            @foreach (var item in Model)
+            {
+                <div class="row">
+                    <div class="col-lg-3 col-sm-3 col-xs-3">
+                        <p>@Html.ActionLink("Delete", "DeleteComments", new { id = item.Id, pageId = (int)ViewBag.Id })</p>
+
+                    </div>
+                    <div class="col-lg-6  col-md-6  col-sm-6  col-xs-6 " style="white-space: pre-line; margin-top: -40px;">
+                        <h4>
+                            @item.Messange
+                        </h4>
+                        <p class="small" style="margin-top: -30px">
+                            Posted by @item.UserName on @item.CreationTime
+                        </p>
+                    </div>
+                </div>
+            }
+        </fieldset>*@
+</fieldset>

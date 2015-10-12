@@ -8,10 +8,11 @@ namespace ORM
 
     public partial class User
     {
-        //public User()
-        //{
-        //    Roles = new HashSet<Role>();
-        //}
+        public User()
+        {
+            Files = new HashSet<File>();
+            Roles = new HashSet<Role>();
+        }
         public int Id { get; set; }
 
         [Required]
@@ -19,8 +20,9 @@ namespace ORM
 
         [Required]
         public string Password { get; set; }
-        public int? RoleId { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
+        public virtual Profile Profiles { get; set; }
 
     }
 }

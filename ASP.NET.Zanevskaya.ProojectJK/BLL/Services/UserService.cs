@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using BLL.Interface.Entities;
@@ -6,6 +7,7 @@ using BLL.Interface.Services;
 using BLL.Mappers;
 using DAL.Interface.Repository;
 using DAL.Interface.DTO;
+using System.Linq.Expressions;
 
 namespace BLL.Services
 {
@@ -46,5 +48,6 @@ namespace BLL.Services
             userRepository.Delete(id);
             uow.Commit();
         }
+
     }
 }

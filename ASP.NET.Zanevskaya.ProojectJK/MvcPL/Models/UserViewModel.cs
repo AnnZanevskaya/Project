@@ -6,19 +6,25 @@ using System.Web;
 
 namespace MvcPL.Models
 {
-    public enum Role
-    {
-        Administrator = 1,
-        Moderator,
-        User,
-        Guest     
-    }
+    //public enum Role
+    //{
+    //    Administrator = 1,
+    //    Moderator,
+    //    User,
+    //    Guest     
+    //}
     
     public class UserViewModel
     {
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Role Role { get; set; }
+        //public Role Role { get; set; }
+    }
+    public class RoleViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
     }
 }

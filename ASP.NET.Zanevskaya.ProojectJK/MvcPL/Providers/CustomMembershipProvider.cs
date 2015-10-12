@@ -6,18 +6,20 @@ using System.Web.Security;
 using DependencyResolver;
 using BLL.Interface.Services;
 using BLL.Interface.Entities;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        private IKernel kernel;
-       
+        private IKernel kernel;      
         public MembershipUser CreateUser(string email, string password)
         {
             kernel = new StandardKernel();
             kernel.ConfigurateResolverWeb();
             var userService = kernel.Get<IService<UserEntity>>();
+            var roleService = kernel.Get<IService<RoleEntity>>();
 
             MembershipUser membershipUser = GetUser(email, false);
             if (membershipUser != null)
@@ -26,18 +28,18 @@ namespace MvcPL.Providers
                 var user = new UserEntity
                 {
                     Email = email,
-                    Password = Crypto.HashPassword(password),  
-                    RoleId = 3
+                    Password = Crypto.HashPassword(password),
+                    Files = new List<FileEntity>(),
+                    Roles = new List<RoleEntity>(),
+                    Profile = new ProfileEntity{Age=0,FirstName = "Noname",LastName = "Noname",LastUpdate = DateTime.Now}
                 };
 
-                //var role = roleService.GetAllEntities().Roles.FirstOrDefault(r => r.Name == "user");
-                //if (role != null)
-                //{
-                //    user.RoleId = role.Id;
-                //}
+                var role = roleService.GetAllEntities().FirstOrDefault(r => r.Name == "User");
+                if (role != null)
+                {
+                    user.Roles.Add(role);
+                }
                 userService.Create(user);
-                //context.Users.Add(user);
-                //context.SaveChanges();
                 membershipUser = GetUser(email, false);
                 return membershipUser;  
         }

@@ -13,11 +13,13 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork uow;
         private readonly IRepository<DalComment> commentRepository;
+
         public CommentService(IUnitOfWork uow, IRepository<DalComment> repository)
         {
             this.uow = uow;
             this.commentRepository = repository;
         }
+
         public CommentEntity GetEntity(int id)
         {
             return commentRepository.GetById(id).ToBllComment();
@@ -30,8 +32,8 @@ namespace BLL.Services
 
         public void Create(CommentEntity entity)
         {
-           commentRepository.Create(entity.ToDalComment());
-           uow.Commit();
+            commentRepository.Create(entity.ToDalComment());
+            uow.Commit();
         }
 
         public void Delete(int id)
@@ -45,5 +47,7 @@ namespace BLL.Services
             commentRepository.Edit(entity.ToDalComment());
             uow.Commit();
         }
+
+
     }
 }

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: 
+Sitemap: http://greenwood-cats.com/sitemap.xml

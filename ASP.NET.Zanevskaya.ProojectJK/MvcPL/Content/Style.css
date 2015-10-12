@@ -1,0 +1,225 @@
+﻿body {
+    /*background: #00CDCD;*/
+    /*background-image:url("/Content/images/bg10.jpg") ;*/
+     background: #00CDCD;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ADD8E6', endColorstr='#00CDCD');
+background: -webkit-gradient(linear, left top, left bottom, from(#ADD8E6), to(#00CDCD));
+background: -moz-linear-gradient(top, #ADD8E6, #00CDCD);
+}
+
+footer p {
+    font-size: 12px;
+    text-align: center;
+}
+section {
+    font-family: 'Museo500';
+}
+
+.container {
+    max-width: 970px;
+    margin: 20px auto;
+    padding: 12px 30px 5px;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.6);
+    -o-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.6);
+}
+section > .container {
+    min-height: 500px;
+}
+
+fieldset {
+    margin-bottom: 30px;
+}
+
+a {
+    color: #9400D3;
+    text-decoration: none;
+    -webkit-transition: all 200ms ease-in;
+    -moz-transition: all 200ms ease-in;
+}
+
+    a:link {
+        color: #9400D3;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #9400D3;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #0026ff;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #9400D3;
+        text-decoration: none;
+    }
+
+
+.site-title {
+    font-family: Arial;
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.login {
+    text-align: right;
+}
+
+    .login a {
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+hr {
+    border-top: 3px solid #454545;
+    height: 4px;
+    border-bottom: 1px solid #454545;
+    margin: 10px 0;
+}
+
+/*img {
+    margin-top: 22px;
+}*/
+
+.overflow {
+    height: 100px;
+    overflow: hidden;
+}
+
+.text-i a {
+    font-size: 16px;
+    font-weight: bold;
+    color: blue;
+    padding: 10px 0px;
+    text-decoration: none;
+}
+
+.text-w a {
+    font-size: 16px;
+    font-weight: bold;
+    color: orange;
+    padding: 10px 0px;
+    text-decoration: none;
+}
+
+.text-d a {
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+    padding: 10px 0px;
+    text-decoration: none;
+}
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.breadcrumb {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0;
+    background-color: inherit;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.mrg {
+    margin-left: 15px;
+    margin-right: 0px;
+}
+
+.found {
+    background-color: yellow;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#found {
+    background-color: yellow;
+    font-weight: bold;
+}
+.somearea {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 50px;
+    content: '';
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    background-color: #9400D3;
+    color: #fff;
+}
+@font-face {
+    font-family: 'Museo500';
+    src: url('fonts/museo/museo-500-webfont.eot');
+    src: url('fonts/museo/museo-500-webfont.eot?iefix') format('eot'), url('fonts/museo/museo-500-webfont.woff') format('woff'), url('fonts/museo/museo-500-webfont.ttf') format('truetype'), url('fonts/museo/museo-500-webfont.svg#webfontYfInUxMA') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.progress {
+    display: block;
+    text-align: center;
+    width: 0;
+    height: 3px;
+    background: red;
+    transition: width .3s;
+}
+.progress.hide {
+    opacity: 0;
+    transition: opacity 1.3s;
+}
+/**/
+video {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #454545;
+    border-left: 1px solid #454545;
+    border-right: 1px solid #454545;
+    border-bottom: 1px solid #454545;
+}
+.rating {
+    height: 50px;
+    width: 50px;
+    background-color: yellow;
+    border: black double 1px;
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+h6 {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}

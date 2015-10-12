@@ -1,0 +1,35 @@
+Метод Зейделя-Заневская Анна, 3 курс, 6 группа
+A = ( {
+{-9, 9, 0, -2, 26, 4},
+{-15, 0.5, -0.7, 1, 1, 4},
+{-1, 12, -1, 6, 0.5, 4},
+{-1, -2, 1, 10, -5, 4},
+{0.5, 1.5, 15, 1, -2, 4}
+} );
+n = 5; index = 0; z = 0; eps = 0.01;
+For[i = 1, i <= n, i++, max = 1; While[max != 0,
+For[j = 1, j <= n, j++, m = 0;
+For[k = 1, k <= n, k++, 
+If[Abs[A[[j, k]]] > m, m = Abs[A[[j, k]]]; index = k;]]
+If[i == index, 
+For[l = 1, l <= n + 1, l++, z = A[[j, l]]; A[[j, l]] = A[[i, l]];
+A[[i, l]] = z]; max = 0;]]]]
+f = Table[0, {n}]; g = f;
+B = Table[0, {n}, {n}];
+For[i = 1, i <= n, i++, 
+For[j = 1, j <= n, j++, B[[i, j]] = -A[[i, j]]/A[[i, i]];]]
+For[i = 1, i <= n, i++, g[[i]] = A[[i, n + 1]]/A[[i, i]]; 
+B[[i, i]] = 0];
+c = Table[0, {n}];
+For[i = 1, i <= n, i++, 
+For[j = 1, j <= n, j++, c[[i]] = c[[i]] + Abs[B[[i, j]]]];]
+d = Max[c];
+p = Max[g];
+ac = 20; xs = f; xn = g;
+ac = (-Log10[eps] - Log10[1 - d] + Log10[p])/Log10[d] - 1; ac = Abs[ Round[ac]];
+For[k = 1, k <= ac, k++, xs = xn; 
+For[i = 1, i <= n, i++, new = 0; 
+For[j = 1, j <= n, j++, new = new + B[[i, j]]*xs[[j]]]; 
+xn[[i]] = new + g[[i]]; 
+xs[[i]] = xn[[i]]];
+Print[k, " ", xn] ];

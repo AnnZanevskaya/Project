@@ -1,19 +1,17 @@
-﻿@{
+﻿@model MvcPL.Models.FileViewModel
+@{
     ViewBag.Title = "Delete";
 }
 
-<div class="center">
-    <h2> Are you sure to delete @Model.FileName ?</h2>
+<div class="col-lg-12 col-mg-12 col-sm-12 col-xs-12 text-center form-inline">
+    <h2 class="text-danger"> Are you sure to delete this File ?</h2>
+        @using (Html.BeginForm("Delete", "File", new { id = Model.Id }))
+        {
+            <input class="btn btn-success btn-xs right" type="button" value="No" formmethod="get" onclick="location.href = '@Url.Action("Index", "File")'" />
+            <input class="btn btn-danger btn-xs right" type="submit" value="Yes" onclick="location.href = '@Url.Action("Delete", "File", new{id = Model.Id})'" formmethod="POST" />
+        }
+    <hr />
 </div>
-<div class="two-center">
-    <div id="menu" class="menu opacity">
 
-        <ul>
-            <li><form action="@Url.Action("Delete")" method="post"><input type="submit" value="Yes" /></form></li>
-            <li>
-                <form action="@Url.Action("Index")" method="get"><input type="submit" value="No" /></form>
-            </li>
-        </ul>
-    </div>
-</div>
+@Html.Partial("ContentPartial", Model)
 

@@ -11,8 +11,18 @@ namespace MvcPL.Infrastructure.Mappers
             {
                 Id = userEntity.Id,
                 Email = userEntity.Email,
-                Password = userEntity.Password,
-                Role = (Role)userEntity.RoleId
+                Password = userEntity.Password
+            };
+        }
+        public static ProfileViewModel ToMvcProfile(this ProfileEntity profileEntity)
+        {
+            return new ProfileViewModel()
+            {
+                Id = profileEntity.Id,
+                FirstName = profileEntity.FirstName,
+                LastName = profileEntity.LastName,
+                Age = profileEntity.Age,
+                LastUpdate = profileEntity.LastUpdate
             };
         }
         public static FileViewModel ToMvcFile(this FileEntity fileEntity)
@@ -25,7 +35,8 @@ namespace MvcPL.Infrastructure.Mappers
                 Description = fileEntity.Description,
                 Rating = fileEntity.Rating,
                 FileType = fileEntity.FileType,
-                CreationTime = fileEntity.CreationTime
+                CreationTime = fileEntity.CreationTime,
+                UserId = fileEntity.UserId
             };
         }
         public static CommentViewModel ToMvcComment(this CommentEntity commentEntity)
@@ -39,14 +50,21 @@ namespace MvcPL.Infrastructure.Mappers
                 CreationTime = commentEntity.CreationTime
             };
         }
+        public static RoleViewModel ToMvcComment(this RoleEntity roleEntity)
+        {
+            return new RoleViewModel()
+            {
+                Id = roleEntity.Id,
+                Name = roleEntity.Name
+            };
+        }
         public static UserEntity ToBllUser(this UserViewModel userViewModel)
         {
             return new UserEntity()
             {
                 Id = userViewModel.Id,
                 Email = userViewModel.Email,
-                Password = userViewModel.Password,
-                RoleId = (int)userViewModel.Role
+                Password = userViewModel.Password
             };
         }
         public static FileEntity ToBllFile(this FileViewModel fileViewModel)
@@ -59,7 +77,8 @@ namespace MvcPL.Infrastructure.Mappers
                 Description = fileViewModel.Description,
                 Rating = fileViewModel.Rating,
                 FileType = fileViewModel.FileType,
-                CreationTime = fileViewModel.CreationTime
+                CreationTime = fileViewModel.CreationTime,
+                UserId = fileViewModel.UserId
             };
         }
         public static CommentEntity ToBllComment(this CommentViewModel commentViewModel)
@@ -71,6 +90,25 @@ namespace MvcPL.Infrastructure.Mappers
                 FileId = commentViewModel.FileId,
                 Messange = commentViewModel.Messange,
                 CreationTime = commentViewModel.CreationTime
+            };
+        }
+        public static RoleEntity ToBllRole(this RoleViewModel roleViewModel)
+        {
+            return new RoleEntity()
+            {
+                Id = roleViewModel.Id,
+                Name = roleViewModel.Name
+            };
+        }
+        public static ProfileEntity ToBllProfile(this ProfileViewModel profileViewModel)
+        {
+            return new ProfileEntity()
+            {
+                Id = profileViewModel.Id,
+                FirstName = profileViewModel.FirstName,
+                LastName = profileViewModel.LastName,
+                Age = profileViewModel.Age,
+                LastUpdate = profileViewModel.LastUpdate
             };
         }
     }

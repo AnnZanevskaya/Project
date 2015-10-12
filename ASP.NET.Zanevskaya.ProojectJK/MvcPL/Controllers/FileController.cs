@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using BLL.Interface.Entities;
 using BLL.Interface.Services;
@@ -9,6 +8,7 @@ using System.Web;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using MvcPL.Infrastructure.Helpers;
 using PagedList;
 
 namespace MvcPL.Controllers
@@ -17,14 +17,15 @@ namespace MvcPL.Controllers
     {
         //
         // GET: /Home/
-        private readonly IService<FileEntity> service;
-        private readonly IService<CommentEntity> serviceC;
-        public FileController(IService<FileEntity> service, IService<CommentEntity> serviceC)
+        private readonly IService<FileEntity> fileService;
+        private readonly IService<CommentEntity> commentService;
+        private readonly IService<UserEntity> userService;
+        public FileController(IService<FileEntity> fileService, IService<CommentEntity> commentService, IService<UserEntity> userService)
         {
-            this.service = service;
-            this.serviceC = serviceC;
+            this.fileService = fileService;
+            this.commentService = commentService;
+            this.userService = userService;
         }
-
         public ActionResult Index(string filter, string sort, int? page, string search)
         {
             int pageSize = 5;
@@ -32,67 +33,41 @@ namespace MvcPL.Controllers
             ViewBag.Filter = filter;
             ViewBag.Sort = sort;
             ViewBag.Search = search;
-            IEnumerable<FileEntity> files = service.GetAllEntities()
-                                .OrderByDescending(e => e.CreationTime);
+            IEnumerable<FileEntity> files;
+            files = fileService.GetAllEntities();
+            files = files.OrderByDescending(e => e.CreationTime);
 
             if (!String.IsNullOrEmpty(search))
             {
                 files = files.Where(e => e.Name.ToLower()
                                           .Contains(search.ToLower()) || e.Description.ToLower().Contains(search.ToLower()));
-            } 
-            filter = String.IsNullOrEmpty(filter) ? "0" : filter;
-            if (!string.IsNullOrEmpty(filter) && filter != "0")
-            {
-                files = files.Where(e => e.FileType == filter);          
             }
-            if (sort == "1")
+            if (!string.IsNullOrEmpty(filter) && filter != "all")
             {
-                files = files.OrderBy(e => e.Name);              
+                files = files.Where(e => e.FileType.Contains(filter));
             }
-            if (sort == "2")
+            if (!string.IsNullOrEmpty(sort) && sort != "date")
             {
-                files = files.OrderByDescending(e => e.Rating);             
+                files = (sort == "title") ? files.OrderBy(e => e.Name) : files.OrderByDescending(e => e.Rating);
             }
 
-            return View(files.Select(file => file.ToMvcFile()).ToPagedList(pageNumber, pageSize));           
-        }
-        
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
+            if (Request.IsAjaxRequest())
+                return PartialView(files.Select(file => file.ToMvcFile()).ToPagedList(pageNumber, pageSize));
+            return View(files.Select(file => file.ToMvcFile()).ToPagedList(pageNumber, pageSize));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(FileViewModel fileViewModel)
-        {
-            service.Create(fileViewModel.ToBllFile());
-            return RedirectToAction("Index");
-        }
-
-        ////GET-запрос к методу Delete несет потенциальную уязвимость!
         [HttpGet]
         public ActionResult Delete(int? id)
         {
             int entityId = (id ?? 1);
-            FileEntity file = service.GetEntity(entityId);
+            ViewBag.Id = entityId;
+            FileEntity file = fileService.GetEntity(entityId);
             if (file == null)
             {
                 return HttpNotFound();
             }
             return View(file.ToMvcFile());
         }
-
-        [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id)
-        {
-            int entityId = (id ?? 1);
-            service.Delete(entityId);
-            return RedirectToAction("Index");
-        }
-
         public ActionResult Content(int? id)
         {
             ViewBag.Id = (id ?? 1);
@@ -101,50 +76,161 @@ namespace MvcPL.Controllers
         public ActionResult ContentPartial(int? id)
         {
             int entityId = (id ?? 1);
-            FileEntity file = service.GetEntity(entityId);
+            FileEntity file = fileService.GetEntity(entityId);
             if (file == null)
             {
                 return HttpNotFound();
             }
             return PartialView(file.ToMvcFile());
         }
-        [HttpGet]
-        public ActionResult ComentsData(int? id)
+        [HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int? id)
         {
-            ViewBag.Id = id;
-            return PartialView(serviceC.GetAllEntities().Where(e => e.FileId == id)
-                                                        .OrderByDescending(e => e.CreationTime)
-                                                        .Select(comment => comment.ToMvcComment()));              
+            int entityId = (id ?? 1);
+            fileService.Delete(entityId);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult ComentsData(CommentViewModel model, int? id)
+        public ActionResult RatingResult(int? id, string submit)
         {
-            
+            int entityId = (id ?? 1);
+            FileEntity file = fileService.GetEntity(entityId);
+            if (file == null)
+            {
+                return HttpNotFound();
+            }
+            var rating = file.Rating;
+
+            if (submit == "like") rating = rating + 1;
+            else rating = rating - 0.5;
+
+            file.Rating = rating;
+            fileService.Edit(file);
+            if (Request.IsAjaxRequest()) return PartialView("ContentPartial", file.ToMvcFile());
+            return RedirectToAction("Content", new {id = entityId});
+
+        }
+
+        public ActionResult SetRating(int? id, string submit)
+        {
+            int entityId = (id ?? 1);
+            try
+            {
+                if (CanUserVote(entityId, 1) == false)
+                    return RedirectToAction("Index");
+                else
+                {
+                    FileEntity file = fileService.GetEntity(entityId);
+                    if (file == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    var rating = file.Rating;
+
+                    if (submit == "like") rating = rating + 1;
+                    else rating = rating - 0.5;
+
+                    file.Rating = rating;
+                    fileService.Edit(file);
+                    if (Request.IsAjaxRequest()) return PartialView("ContentPartial", file.ToMvcFile());
+                    return RedirectToAction("Content", new { id = entityId });
+                }
+            } 
+            catch (Exception ex) { return  RedirectToAction("Index");}
+        }
+
+        private bool CanUserVote(int id, double rating)
+        {
+            HttpCookie voteCookie = Request.Cookies["Votes"];
+            //if (voteCookie != null)
+            //{
+            //    if (voteCookie[id.ToString()] != null)
+            //    {
+            //        return false;
+            //    }
+            //    else
+            //    {
+            //        voteCookie[id.ToString()] = rating.ToString();
+            //        Response.Cookies.Add(voteCookie);
+            //        return true;
+            //    }
+            //}
+            //voteCookie = new HttpCookie("Votes"); 
+            //voteCookie[id.ToString()] = rating.ToString(); 
+            //Response.Cookies.Add(voteCookie); 
+            //return true;
+
+            if (voteCookie != null && voteCookie[id.ToString()] != null)
+                return false;
+            else if (voteCookie == null) voteCookie = new HttpCookie("Votes");
+            voteCookie[id.ToString()] = rating.ToString(); 
+            Response.Cookies.Add(voteCookie); 
+            return true;
+        }
+      
+        [HttpGet]
+        public ActionResult CommentsData(int? id)
+        {
+            ViewBag.Id = (id ?? 1);
+            //ViewBag.Id = id;
+            //int entity = (id??1);
+            //return PartialView(serviceC.GetAllEntities().Where(e => e.FileId == id)
+            //                                           .OrderByDescending(e => e.CreationTime)
+            //                                            .Select(comment => comment.ToMvcComment()));
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult CommentsData(CommentViewModel model, int? id)
+        {
             int entityid = (id ?? 1);
             ViewBag.Id = entityid;
             model.FileId = entityid;
+            var user = userService.GetAllEntities().First(u => u.Email == User.Identity.Name);
+            model.UserName = user.Email;
             model.CreationTime = DateTime.Now;
-            serviceC.Create(model.ToBllComment());
-            return PartialView(serviceC.GetAllEntities().Where(e => e.FileId == id)
-                                                        .OrderByDescending(e => e.CreationTime)
-                                                        .Select(comment => comment.ToMvcComment()));
+            commentService.Create(model.ToBllComment());
+            if (Request.IsAjaxRequest())
+                return RedirectToAction("CommentsData");
+            //return PartialView(serviceC.GetAllEntities().Where(e => e.FileId == id)
+            //                                       .OrderByDescending(e => e.CreationTime)
+            //                                       .Select(comment => comment.ToMvcComment()));
+            return RedirectToAction("Content", new { id = id });
+
         }
 
+        [HttpGet]
+        public ActionResult CommentsView(int? id)
+        {
+            ViewBag.Id = (id ?? 1);
+
+            if (Request.IsAjaxRequest())
+                return PartialView(commentService.GetAllEntities().Where(e => e.FileId == id)
+                                                           .OrderByDescending(e => e.CreationTime)
+                                                           .Select(comment => comment.ToMvcComment()));
+            return PartialView(commentService.GetAllEntities().Where(e => e.FileId == id)
+                                                           .OrderByDescending(e => e.CreationTime)
+                                                           .Select(comment => comment.ToMvcComment()));
+        }
         public ActionResult DeleteComments(int? id, int? pageId)
         {
             int entityid = (pageId ?? 1);
             int idC = (id ?? 1);
             ViewBag.Id = entityid;
-            serviceC.Delete(idC);
-            return View("Content");
+            commentService.Delete(idC);
+            if (Request.IsAjaxRequest())
+                return RedirectToAction("CommentsView", new { id = entityid });
+            return RedirectToAction("Content", new { id = entityid });
         }
 
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             int entityId = (id ?? 1);
-            FileEntity file = service.GetEntity(entityId);
+            FileEntity file = fileService.GetEntity(entityId);
             if (file == null)
             {
                 return HttpNotFound();
@@ -155,7 +241,7 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Edit(FileViewModel fileViewModel)
         {
-            service.Edit(fileViewModel.ToBllFile());
+            fileService.Edit(fileViewModel.ToBllFile());
             return RedirectToAction("Index");
         }
 
@@ -168,67 +254,61 @@ namespace MvcPL.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file, FileViewModel fileViewModel)
         {
+            //char[] a = fileViewModel.FileName.ToCharArray();
+            //a[0] = char.ToUpper(a[0]);
+            //string n = new string(a);
+            //string[] word = fileViewModel.FileName.Split(' ');
+            //string newName = "";
+            //for (int i = 0; i < word.Length; i++)
+            //{
+            //    if (word[i].Length > 1)
+            //        word[i] = word[i].Substring(0, 1).ToUpper() + word[i].Substring(1, word[i].Length - 1).ToLower();
+            //    else word[i] = word[i].ToUpper();
+            //}
+            //newName = string.Join(" ", word);
+            //fileViewModel.FileName = n;
+            fileViewModel.FileName = fileViewModel.FileName.ToCapitalLetter();
+            fileViewModel.Description = fileViewModel.Description.ToCapitalLetter();
             string fileName = Guid.NewGuid().ToString();
             string extension = Path.GetExtension(file.FileName);
             fileName += extension;
+            file.SaveAs(Server.MapPath("/Uploads/" + fileName));
+            ViewBag.Message = "Файл сохранен";
+            fileViewModel.Path = fileName;
 
-            List<string> extensions = new List<string>() { ".txt", ".docx", ".pdf", ".mp3", "mp4" };
-
-            if (extensions.Contains(extension))
-            {
-                file.SaveAs(Server.MapPath("/Uploads/" + fileName));
-                ViewBag.Message = "Файл сохранен";
-                fileViewModel.Path = fileName;
-
-                extensions = new List<string>() { ".txt", ".docx", ".pdf" };
-                if (extensions.Contains(extension)) fileViewModel.FileType = "1";
-
-                if (extensions.Contains(".mp3")) fileViewModel.FileType = "2";
-
-                if (extensions.Contains(".mp4")) fileViewModel.FileType = "3";
-
-                fileViewModel.CreationTime = DateTime.Now;
-                fileViewModel.Rating = 3.4;
-                ViewBag.Path = fileName;
-                service.Create(fileViewModel.ToBllFile());
-
-            }
-            else
-            {
-                ViewBag.Message = "Ошибка. Допустимые расширения файлов - '.txt', '.docx','.pdf','mp3', 'avi', 'mp4'";
-            }
-
-            // return RedirectToAction("Index");
+            fileViewModel.FileType = file.ContentType;
+            fileViewModel.CreationTime = DateTime.Now;
+            fileViewModel.Rating = 3.4;
+            fileViewModel.UserId = userService.GetAllEntities().First(u => u.Email == User.Identity.Name).Id;
+            ViewBag.Path = fileName;
+            fileService.Create(fileViewModel.ToBllFile());
             return RedirectToAction("Index");
         }
 
         public ActionResult DownloadFile(int? id)
         {
             int entityId = (id ?? 1);
-            FileEntity file = service.GetEntity(entityId);
+            FileEntity file = fileService.GetEntity(entityId);
             if (file == null)
             {
                 return HttpNotFound();
             }
             string filename = Server.MapPath("/Uploads/" + file.ToMvcFile().Path);
-            string contentType = "application/pdf"; // MIME Type image/png  image/jpg application/pdf
-            string downloadName = "PDF File";
-            // Если имя файла для скачивания не указано и если 
-            // браузер поддерживает тип файла, файл откроется в самом браузере.
-            //downloadName = null; 
+            string contentType = file.FileType;
+            string downloadName = file.Name;
             return File(filename, contentType, downloadName);
         }
 
         public ActionResult DownloadBytes(int? id)
         {
             int entityId = (id ?? 1);
-            FileEntity file = service.GetEntity(entityId);
+            FileEntity file = fileService.GetEntity(entityId);
             if (file == null)
             {
                 return HttpNotFound();
             }
             string filename = Server.MapPath("/Uploads/" + file.ToMvcFile().Path);
-            string contentType = "application/pdf";
+            string contentType = file.FileType;
             byte[] data = System.IO.File.ReadAllBytes(filename);
             return File(data, contentType);
         }

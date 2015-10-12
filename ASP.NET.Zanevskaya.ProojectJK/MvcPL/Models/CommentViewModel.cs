@@ -10,7 +10,8 @@ namespace MvcPL.Models
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        [StringLength(500, MinimumLength = 3)]
+        [Display(Name = "Comment")]
+        [StringLength(500, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         public string Messange { get; set; }
         public int FileId { get; set; }
         [DataType(DataType.Date)]

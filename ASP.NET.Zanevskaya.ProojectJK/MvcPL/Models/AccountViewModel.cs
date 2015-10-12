@@ -23,7 +23,7 @@ namespace MvcPL.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        public Role Role { get; set; }
+        //public Role Role { get; set; }
         [Required]
         public string Captcha { get; set; }
     }

@@ -15,10 +15,11 @@
         public string FileType { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
-        //public int UserId { get; set; }
+        public int UserId { get; set; }
         public string Path { get; set; }
         public DateTime CreationTime { get; set; }
-        //public virtual User User { get; set; }
+        public virtual User User { get; set; }
+
         
     }
 }

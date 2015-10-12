@@ -10,7 +10,7 @@ using System;
 
 namespace DAL.Concrete
 {
-    public class FileRepository: IRepository<DalFile>
+    public class FileRepository : IRepository<DalFile>
     {
         private readonly DbContext context;
 
@@ -27,10 +27,10 @@ namespace DAL.Concrete
                 Description = file.Description,
                 FileType = file.FileType,
                 Rating = file.Rating,
-                //UserId = file.UserId,
+                UserId = file.UserId,
                 Path = file.Path,
                 CreationTime = file.CreationTime
-                
+
             });
         }
 
@@ -43,16 +43,11 @@ namespace DAL.Concrete
                 Name = ormuser.Name,
                 Description = ormuser.Description,
                 FileType = ormuser.FileType,
-                //UserId = ormuser.UserId,
-                Rating = ormuser.Rating,       
+                UserId = ormuser.UserId,
+                Rating = ormuser.Rating,
                 Path = ormuser.Path,
                 CreationTime = ormuser.CreationTime
             };
-        }
-
-        public DalFile GetByPredicate(Expression<Func<DalFile, bool>> f)
-        {
-            throw new NotImplementedException();
         }
 
         public void Create(DalFile e)
@@ -65,7 +60,7 @@ namespace DAL.Concrete
                 FileType = e.FileType,
                 Rating = e.Rating,
                 Path = e.Path,
-                //UserId = e.UserId,
+                UserId = e.UserId,
                 CreationTime = e.CreationTime
 
             };
@@ -76,6 +71,7 @@ namespace DAL.Concrete
             var entity = context.Set<File>().Find(e.Id);
             entity.Name = e.Name;
             entity.Description = e.Description;
+            entity.Rating = e.Rating;
             context.SaveChanges();
         }
 

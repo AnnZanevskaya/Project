@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Catalog" controller="File" action="Index">
+    <mvcSiteMapNode title="Profile" controller="Manage" action="Index">
+      <mvcSiteMapNode title="Edit Profile" controller="Manage" action="Edit"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Create File" controller="File" action="Upload"/>
+    <mvcSiteMapNode title="Content" controller="File" action="Content" preservedRouteParameters="id">
+      <mvcSiteMapNode title="Edit File" controller="File" action="Edit" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Delete File" controller="File" action="Delete" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Log In" controller="Account" action="Login"/>
+    <mvcSiteMapNode title="Register" controller="Account" action="Register"/>
+  </mvcSiteMapNode>
+</mvcSiteMap>

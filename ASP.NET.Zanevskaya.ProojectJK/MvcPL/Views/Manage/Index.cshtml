@@ -1,0 +1,32 @@
+﻿@model MvcPL.Models.ProfileViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Profile</a></li>
+    <li><a data-toggle="tab" href="#menu1">My files</a></li>
+    @if (User.IsInRole("Administrator"))
+    {
+        <li><a data-toggle="tab" href="#menu2">Users List</a></li>
+    }
+</ul>
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+       @Html.Partial("UserProfile", Model)
+        @using (Html.BeginForm("Edit", "Manage", new { @User.Identity.Name }, FormMethod.Get))
+        {
+            <input class="btn btn-default btn-sm " type="submit" value="Edit Profile" style="margin-top: 10px; margin-bottom: 30px;">
+        }
+    </div>
+    <div id="menu1" class="tab-pane fade">
+        @Html.Action("FileView")
+    </div>
+
+    @if (User.IsInRole("Administrator"))
+    {
+        <div id="menu2" class="tab-pane fade">
+            @Html.Action("UserView")
+        </div>
+    }
+
+</div>

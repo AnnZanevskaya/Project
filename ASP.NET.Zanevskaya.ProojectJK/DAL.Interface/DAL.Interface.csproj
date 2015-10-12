@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="DTO\DalComment.cs" />
     <Compile Include="DTO\DalFile.cs" />
+    <Compile Include="DTO\DalProfile.cs" />
     <Compile Include="DTO\DalRole.cs" />
     <Compile Include="DTO\DalUser.cs" />
     <Compile Include="DTO\IEntity.cs" />

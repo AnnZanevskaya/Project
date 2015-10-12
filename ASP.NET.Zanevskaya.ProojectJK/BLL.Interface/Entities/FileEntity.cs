@@ -11,6 +11,6 @@ namespace BLL.Interface.Entities
         public string FileType { get; set; }
         public double Rating { get; set; }
         public DateTime CreationTime { get; set; }
-        //public int UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

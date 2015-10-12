@@ -9,7 +9,6 @@ namespace DAL.Interface.Repository
     {
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int key);
-        TEntity GetByPredicate(Expression<Func<TEntity, bool>> f);
         void Create(TEntity e);
         void Delete(int id);
         void Edit(TEntity e);

@@ -53,6 +53,12 @@
       <HintPath>..\packages\Microsoft.AspNet.Membership.OpenAuth.2.0.1\lib\net45\Microsoft.AspNet.Membership.OpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcSiteMapProvider">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC4.Core.4.6.18\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC4.4.6.18\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -162,31 +168,47 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CaptchaImage.cs" />
+    <Compile Include="Infrastructure\Helpers\LoadingHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\RatingHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\ToCapitalLetterHelper.cs" />
+    <Compile Include="Infrastructure\HighlightKeyWords.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Mappers\MvcPLMappers.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomMembershipProvider.cs" />
+    <Compile Include="Providers\CustomProfileProvider.cs" />
+    <Compile Include="Providers\CustomRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\RepAndUowDemo.mdf" />
     <Content Include="App_Data\RepAndUowDemo_log.ldf">
       <DependentUpon>RepAndUowDemo.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\museo\museo-300-webfont.svg" />
     <Content Include="Content\fonts\museo\museo-500-webfont.svg" />
     <Content Include="Content\fonts\museo\museo-700-webfont.svg" />
+    <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\bg10.jpg" />
     <Content Include="Content\images\icon1.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\star.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\star-rating.css" />
+    <Content Include="Content\Style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -241,6 +263,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\ImageStyle.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\fonts\museo\museo-300-webfont.eot" />
@@ -252,13 +276,27 @@
     <Content Include="Content\fonts\museo\museo-700-webfont.eot" />
     <Content Include="Content\fonts\museo\museo-700-webfont.ttf" />
     <Content Include="Content\fonts\museo\museo-700-webfont.woff" />
-    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Mvc.sitemap" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-latest.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.superbgimage.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -268,6 +306,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\scripts.js" />
+    <Content Include="Scripts\star-rating.js" />
+    <Content Include="Scripts\text-highlight.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Uploads\1f516900-6a95-4dc0-915b-f61ce7558d91.jpg" />
     <Content Include="Uploads\23dd872c-bfea-4344-9338-c683aeefccfc.jpg" />
@@ -293,7 +334,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\File\Content.cshtml" />
-    <Content Include="Views\File\Create.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -302,11 +342,27 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
     <Content Include="Views\File\Delete.cshtml" />
-    <Content Include="Views\File\FileData.cshtml" />
-    <Content Include="Views\File\ComentsData.cshtml" />
-    <Content Include="Views\File\ContentPartial.cshtml" />
+    <Content Include="Views\File\CommentsData.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\File\_FilePartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\File\ContentPartial.cshtml" />
+    <Content Include="Views\Manage\FileView.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
+    <Content Include="Views\File\CommentsView.cshtml" />
+    <Content Include="Views\Manage\UserView.cshtml" />
+    <Content Include="Views\Manage\DeleteUser.cshtml" />
+    <Content Include="Views\Manage\UserDetails.cshtml" />
+    <Content Include="Views\Manage\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\User\" />

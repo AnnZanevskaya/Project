@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using BLL.Interface.Entities;
 
 namespace BLL.Interface.Services
@@ -14,5 +12,6 @@ namespace BLL.Interface.Services
         void Create(TEntity entity);
         void Delete(int id);
         void Edit(TEntity entity);
+        //IEnumerable<TEntity> GetAllEntities(Expression<Func<TEntity, bool>> search);
     }
 }

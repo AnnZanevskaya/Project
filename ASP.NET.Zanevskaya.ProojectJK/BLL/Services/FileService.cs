@@ -6,6 +6,8 @@ using BLL.Interface.Services;
 using BLL.Mappers;
 using DAL.Interface.Repository;
 using DAL.Interface.DTO;
+using System.Linq.Expressions;
+using System;
 
 
 namespace BLL.Services
@@ -45,5 +47,9 @@ namespace BLL.Services
             fileRepository.Delete(id);
             uow.Commit();
         }
+        //public IEnumerable<FileEntity> GetAllEntities(Expression<Func<FileEntity, bool>> search)
+        //{
+        //    return fileRepository.GetAll().AsQueryable().Select(file => file.ToBllFile()).Where(search);
+        //}
     }
 }
