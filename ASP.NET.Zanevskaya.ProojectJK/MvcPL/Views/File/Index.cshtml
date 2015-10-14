@@ -91,7 +91,6 @@
                     <p>
                         Display:
                         <select class="form-control input-sm" name="filter">
-
                             @foreach (var item in filterItems)
                             {
                                 if (ViewBag.Filter == item.Value)
@@ -123,31 +122,5 @@
             </div>
         }
     </div>
-
     @Html.Partial("_FilePartial", Model)
-
-    @*<div class="center-block text-center">
-        @if (Model.PageCount > 1)
-        {
-            @Html.PagedListPager(Model, page => Url.Action("Index", "File", new
-            {
-                filter = (string) ViewBag.Filter,
-                sort = (string) ViewBag.Sort,
-                page,
-                search = (string) ViewBag.Search,
-            }) + "#top", PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "tabledata", LoadingElementId = "progress", LoadingElementDuration = 1000 }))
-        }
-        else
-        {<div class="somearea"></div>}
-    </div>*@
 </div>
-@section Scripts {
-    <script>
-
-      $("a[href='#top']").click(function() {
-          $("html, body").animate({ scrollTop: 0 }, "slow");
-          return false;
-      });
-
-    </script>
-}

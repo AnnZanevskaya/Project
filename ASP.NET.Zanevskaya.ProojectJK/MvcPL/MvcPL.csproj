@@ -167,7 +167,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -207,7 +206,6 @@
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\star.png" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\star-rating.css" />
     <Content Include="Content\Style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -266,7 +264,6 @@
     <Content Include="Content\ImageStyle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\fonts\museo\museo-300-webfont.eot" />
     <Content Include="Content\fonts\museo\museo-300-webfont.ttf" />
     <Content Include="Content\fonts\museo\museo-300-webfont.woff" />
@@ -336,14 +333,12 @@
     <Content Include="Views\File\Content.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
     <Content Include="Views\File\Delete.cshtml" />
-    <Content Include="Views\File\CommentsData.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\File\_CommentsDataPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\File\_FilePartial.cshtml" />
@@ -355,10 +350,10 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Views\File\ContentPartial.cshtml" />
+    <Content Include="Views\File\_ContentPartial.cshtml" />
     <Content Include="Views\Manage\FileView.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
-    <Content Include="Views\File\CommentsView.cshtml" />
+    <Content Include="Views\File\_CommentsViewPartial.cshtml" />
     <Content Include="Views\Manage\UserView.cshtml" />
     <Content Include="Views\Manage\DeleteUser.cshtml" />
     <Content Include="Views\Manage\UserDetails.cshtml" />

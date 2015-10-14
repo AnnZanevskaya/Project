@@ -8,6 +8,7 @@
 <fieldset>
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
+    @ViewBag.Message
     <legend>Create file</legend>
     <form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
         <div class="col-sm-5">

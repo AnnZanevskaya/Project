@@ -1,10 +1,8 @@
 ﻿body {
-    /*background: #00CDCD;*/
-    /*background-image:url("/Content/images/bg10.jpg") ;*/
      background: #00CDCD;
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ADD8E6', endColorstr='#00CDCD');
-background: -webkit-gradient(linear, left top, left bottom, from(#ADD8E6), to(#00CDCD));
-background: -moz-linear-gradient(top, #ADD8E6, #00CDCD);
+     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ADD8E6', endColorstr='#436EEE');
+     background: -webkit-gradient(linear, left top, left bottom, from(#ADD8E6), to(#436EEE));
+     background: -moz-linear-gradient(top, #ADD8E6, #436EEE);
 }
 
 footer p {
@@ -85,10 +83,6 @@ hr {
     margin: 10px 0;
 }
 
-/*img {
-    margin-top: 22px;
-}*/
-
 .overflow {
     height: 100px;
     overflow: hidden;
@@ -109,7 +103,13 @@ hr {
     padding: 10px 0px;
     text-decoration: none;
 }
-
+.text-s a {
+    font-size: 16px;
+    font-weight: bold;
+    color: yellowgreen;
+    padding: 10px 0px;
+    text-decoration: none;
+}
 .text-d a {
     font-size: 16px;
     font-weight: bold;
@@ -122,8 +122,6 @@ hr {
 .field-validation-error {
     color: #f00;
 }
-
-
 
 .input-validation-error {
     border: 1px solid #f00;
@@ -213,11 +211,12 @@ video {
 .rating {
     height: 50px;
     width: 50px;
+    margin: 20px 0px 10px 40px;
     background-color: yellow;
-    border: black double 1px;
-    margin-left: 40px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    -webkit-box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.6);
+    -o-box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.6);
 }
 h6 {
     margin-top: 3px;

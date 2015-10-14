@@ -3,7 +3,7 @@
         @if (Request.IsAuthenticated)
         {
             <text>
-                <li>Hello, @Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!</li>
+                <li>Hello, @Html.ActionLink(User.Identity.Name, "Index", "Manage")!</li>
                 <li>
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
@@ -15,22 +15,8 @@
         }
         else
         {
-            @*using (Html.BeginForm("Login", "Account"))
-                {
-                    <div class="form-inline">
-                        <div class="form-group">
-                            <label class="sr-only" for="exampleInputEmail3">Email address</label>
-                            <input type="email" class="form-control input-sm" id="exampleInputEmail3" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="exampleInputPassword3">Password</label>
-                            <input type="password" class="form-control input-sm" id="exampleInputPassword3" placeholder="Password">
-                        </div>
-                    </div>
-                    <input type="submit" class="btn btn-default btn-sm" value="Sign In" formmethod="post">
-                }*@
-            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li>@Html.ActionLink("Register", "Register", "Account")</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account")</li>
         }
     </ul>
 </div>

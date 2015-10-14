@@ -13,18 +13,16 @@ namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        private IKernel kernel;      
+        private IService<UserEntity> userService;
+        private IService<RoleEntity> roleService;
+
         public MembershipUser CreateUser(string email, string password)
         {
-            kernel = new StandardKernel();
-            kernel.ConfigurateResolverWeb();
-            var userService = kernel.Get<IService<UserEntity>>();
-            var roleService = kernel.Get<IService<RoleEntity>>();
-
+            userService = (IService<UserEntity>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<UserEntity>));
+            roleService = (IService<RoleEntity>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<RoleEntity>));
             MembershipUser membershipUser = GetUser(email, false);
             if (membershipUser != null)
                 return null;
-
                 var user = new UserEntity
                 {
                     Email = email,
@@ -46,18 +44,14 @@ namespace MvcPL.Providers
 
         public override bool ValidateUser(string email, string password)
         {
-            kernel = new StandardKernel();
-            kernel.ConfigurateResolverWeb();
-            var userService = kernel.Get<IService<UserEntity>>();
+           userService = (IService<UserEntity>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<UserEntity>));
            var user = userService.GetAllEntities().FirstOrDefault(u => u.Email == email);
-            return user != null && Crypto.VerifyHashedPassword(user.Password, password);
+           return user != null && Crypto.VerifyHashedPassword(user.Password, password);
         }
 
         public override MembershipUser GetUser(string email, bool userIsOnline)
         {
-            kernel = new StandardKernel();
-            kernel.ConfigurateResolverWeb();
-            var userService = kernel.Get<IService<UserEntity>>();
+            userService = (IService<UserEntity>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<UserEntity>));
             var user = userService.GetAllEntities().FirstOrDefault(u => u.Email == email);
             if (user == null) return null;
             var memberUser = new MembershipUser("CustomMembershipProvider", user.Email,

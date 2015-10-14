@@ -11,10 +11,11 @@ namespace MvcPL.Models
         public int Id { get; set; }
         [StringLength(20, MinimumLength = 3)]
         [Display(Name = "File title")]
+        [Required]
         public string FileName { get; set; }
         public string Path { get; set; }
-         [StringLength(500, MinimumLength = 3)]
-       
+        [StringLength(2000, MinimumLength = 3)]
+        [Required]
         public string Description { get; set; }
         public double Rating { get; set; }
         public string FileType { get; set; }

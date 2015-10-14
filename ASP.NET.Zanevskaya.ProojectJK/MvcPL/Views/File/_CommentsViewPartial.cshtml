@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<MvcPL.Models.CommentViewModel>
 @{
-    ViewBag.Title = "ComentsView";
     Layout = null;
 }
 <div id="commentView">
@@ -8,16 +7,12 @@
     {
         foreach (var item in Model)
         {
-
             <div class="row">
                 <div class="col-lg-3 col-sm-3 col-xs-3">
-                    <p>@Ajax.ActionLink("Delete", "DeleteComments", new {id = item.Id, pageId = ViewBag.Id}, new AjaxOptions {UpdateTargetId = "commentView"})
-
+                    <p>@Ajax.ActionLink("Delete", "DeleteComments", new { id = item.Id, pageId = ViewBag.Id }, new AjaxOptions { UpdateTargetId = "commentView", HttpMethod = "Post" })
                 </div>
                 <div class="col-lg-6  col-md-6  col-sm-6  col-xs-6 " style="white-space: pre-line; margin-top: -40px;">
-                    <h4>
-                        @item.Messange
-                    </h4>
+                    <h4>@item.Messange</h4>
                     <p class="small" style="margin-top: -30px">
                         Posted by @item.UserName on @item.CreationTime
                     </p>

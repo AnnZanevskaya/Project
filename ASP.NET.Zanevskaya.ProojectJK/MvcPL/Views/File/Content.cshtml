@@ -4,7 +4,17 @@
 
 @Html.Action("ContentPartial", new { id = (int)ViewBag.Id })
 
-<div id="tabledata">
-    @Html.Action("CommentsData", new { id = (int)ViewBag.Id })
-</div>
-
+@if (User.Identity.IsAuthenticated)
+{
+    @Html.Action("CommentsDataPartial", new { id = (int)ViewBag.Id })
+}
+else
+{
+    <p class="text-center text-i">@Html.ActionLink("Log in", "Login", "Account") or @Html.ActionLink("Register", "Register", "Account") to make a comment.</p>
+}
+<fieldset class="text-center">
+    <legend>Latest Comments</legend>
+    <div id="tabledata">
+        @Html.Action("CommentsViewPartial", new { id = (int)ViewBag.Id })
+    </div>
+</fieldset>

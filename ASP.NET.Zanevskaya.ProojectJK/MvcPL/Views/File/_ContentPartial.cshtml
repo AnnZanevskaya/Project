@@ -2,7 +2,6 @@
 @using MvcPL.Models
 @model FileViewModel
 @{
-
     Layout = null;
     var options = new AjaxOptions()
     {
@@ -19,7 +18,10 @@
     <h2 class="text-center">@Model.FileName</h2>
     <div class="row">
         <div class="col-lg-2 col-mg-2 col-sm-2 col-xs-2 text-center">
-            <img src="~/Content/images/icon1.png" width="48" height="48" alt="FileType img" />
+            <div class="rating text-center" style="margin-top: 0px">
+                <h2 style="margin-top: -3px">@Model.Rating</h2>
+                <p class="small" style="margin-top: -10px; overflow: hidden">@Model.FileType.Split('/')[0]</p>
+            </div>
             <h6>added</h6>
             <h6>@Model.CreationTime.ToShortDateString()</h6>
         </div>
@@ -31,14 +33,12 @@
     {
         <div class="row">
             <div class="col-lg-12 col-mg-12 col-sm-12 col-xs-12 text-center">
-
-                @Model.Rating rating
-
                 @if (User.Identity.IsAuthenticated)
                 {
                     if (voteCookie != null && voteCookie[Model.Id.ToString()] != null)
                     {
-                        <p class="small">Sorry, You are already voted</p>}
+                        <p class="small">Sorry, You are already voted</p>
+                    }
                     else
                     {
                         using (Ajax.BeginForm(options))
@@ -50,28 +50,26 @@
                             </div>
                         }
                     }
-
-                    <ul class="list-inline">
-                        @if (!Model.FileType.Contains("text"))
+                    <ul class="list-inline" style="margin-top: 10px">
+                        @if (Model.FileType.Contains("audio") || Model.FileType.Contains("video"))
                         {
-                            <li class="text-i"><a href="javascript:toggle('1')">+Click to View</a></li>
+                            <li class="text-s"><a href="javascript:toggle('1')">+Click to View</a></li>
                         }
-                        else
+                        else if (Model.FileType.Contains("text"))
                         {
-                            <li class="text-w">@Html.ActionLink("+Click to View", "DownloadBytes", new { @Model.Id })</li>
+                            <li class="text-s">@Html.ActionLink("+Click to View", "DownloadBytes", new {@Model.Id})</li>
                         }
-                        <li class="text-w">@Html.ActionLink("Edit", "Edit", new {@Model.Id})</li>
-                        <li class="text-d">@Html.ActionLink("Delete", "Delete", new {@Model.Id})</li>
-                        <li class="text-w">@Html.ActionLink("Download", "DownloadFile", new {@Model.Id})</li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="text-w">@Html.ActionLink("Edit", "Edit", new {@Model.Id})</li>
+                            <li class="text-d">@Html.ActionLink("Delete", "Delete", new {@Model.Id})</li>
+                        }
+                        <li class="text-s">@Html.ActionLink("Download", "DownloadFile", new {@Model.Id})</li>
                     </ul>
                 }
             </div>
             <div class="col-lg-12 col-mg-12 col-sm-12 col-xs-12 text-center">
                 <div id="toggle_1" style="display: none">
-                    @*@if (Model.FileType.Contains("text"))
-                    {
-                        Html.Action("DownloadBytes", "File", new{id = Model.Id});
-                    }*@
                     @if (Model.FileType.Contains("audio"))
                     {
                         <audio controls>
@@ -85,26 +83,20 @@
                             Your browser does not support the video tag.
                         </video>
                     }
-
                 </div>
-
             </div>
         </div>
-        <hr />
+        <hr/>
     }
-
 </div>
-
-
 
 <script type="text/javascript">
     function toggle(num) {
         obj = document.getElementById("toggle_" + num);
-        if (obj.style.display == "none") {
+        if (obj.style.display === "none") {
             obj.style.display = "block";
         } else {
             obj.style.display = "none";
-
         }
     }
 </script>

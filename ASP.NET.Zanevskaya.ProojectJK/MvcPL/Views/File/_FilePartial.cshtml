@@ -3,10 +3,6 @@
 @using MvcPL.Infrastructure.Helpers;
 @using PagedList.Mvc;
 
-
-@{
-    ViewBag.Title = "_FilePartial";
-}
 <div id="tabledata">
     @if (Model.Any())
     {
@@ -18,9 +14,8 @@
                 <div class="col-lg-2 col-mg-2 col-sm-2 col-xs-2 text-center">
                     <div class="rating text-center">
                         <h2 style=" margin-top: -3px">@item.Rating</h2>
-                        <p class="small" style="margin-top: -10px">@item.FileType.Split('/')[0]</p>
+                        <p class="small" style="margin-top: -10px; overflow: hidden">@item.FileType.Split('/')[0]</p>
                     </div>
-                    @*<img src="~/Content/images/icon1.png" width="48" height="48" alt="FileType img" style="margin-top: 22px;" />*@
                     <h6>added</h6>
                     <h6>@item.CreationTime.ToShortDateString()</h6>
                 </div>
@@ -33,14 +28,11 @@
                     }
                     else
                     {
-                        <h3>
-                            <a href="http://localhost:9026/File/Content/@item.Id">@Html.Raw(ViewData["tempTitle"].ToString().HighlightKeyWords((string) ViewBag.Search, "yellow", false))</a>
-                        </h3>
+                        <h3><a href="http://localhost:9026/File/Content/@item.Id">@Html.Raw(ViewData["tempTitle"].ToString().HighlightKeyWords((string) ViewBag.Search, "yellow", false))</a></h3>
                         <p>@Html.Raw(ViewData["tempDescription"].ToString().HighlightKeyWords((string) ViewBag.Search, "yellow", false))</p>
                     }
 
                 </div>
-                
                 @*<div class="col-lg-3 col-mg-3 col-sm-3 col-xs-3" style="margin-top: 40px">
                     <input class="btn btn-primary btn-sm right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Content", new {@item.Id})'" />
                     @if (User.IsInRole("Administrator"))
@@ -57,7 +49,6 @@
         <div class="col-lg-12 col-mg-12 col-sm-12 col-xs-12 text-center">
             <h3 class="text-danger">Sorry, nothing to show, try again...</h3>
         </div>
-
     }
     <div class="center-block text-center">
         @if (Model.PageCount > 1)
