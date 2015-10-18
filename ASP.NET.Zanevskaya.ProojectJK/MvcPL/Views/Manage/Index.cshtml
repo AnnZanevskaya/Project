@@ -12,14 +12,24 @@
 </ul>
 <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-       @Html.Partial("UserProfile", Model)
+        @Html.Partial("_UserProfile", Model)
         @using (Html.BeginForm("Edit", "Manage", new { @User.Identity.Name }, FormMethod.Get))
         {
             <input class="btn btn-default btn-sm " type="submit" value="Edit Profile" style="margin-top: 10px; margin-bottom: 30px;">
         }
     </div>
     <div id="menu1" class="tab-pane fade">
-        @Html.Action("FileView")
+        <div class="row">
+            <div class="col-lg-2  col-mg-2  col-sm-2  col-xs-2 ">
+                @using (Html.BeginForm("Upload", "File"))
+                {
+                    <input class="btn btn-default btn-sm " type="submit" formmethod="get" value="Add New Files | +" style="margin-top: 10px; margin-bottom: 30px;">
+                }
+            </div>
+            <div class="col-lg-9  col-mg-9  col-sm-9  col-xs-9 ">
+                @Html.Action("FileView")
+            </div>
+        </div>
     </div>
 
     @if (User.IsInRole("Administrator"))
@@ -28,5 +38,4 @@
             @Html.Action("UserView")
         </div>
     }
-
 </div>

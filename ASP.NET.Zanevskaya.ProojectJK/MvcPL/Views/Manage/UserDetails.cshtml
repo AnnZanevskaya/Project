@@ -1,11 +1,11 @@
 ﻿@model MvcPL.Models.ProfileViewModel
 @{
-    if (String.IsNullOrEmpty(ViewBag.Title)) {Layout = null;}
+    ViewBag.Title = "UserDetails";
+    if (ViewBag.Layout == true) { Layout = null; }
 }
-@ViewBag.Title title
-@Html.Partial("UserProfile", Model)
+@Html.Partial("_UserProfile", Model)
 
+<hr />
 
-<hr/>
-@Html.Action("FileView")
+@Html.Action("UserFileView", new { id = ViewBag.Id, layout = true })
 

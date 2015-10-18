@@ -61,8 +61,8 @@
                         }
                         @if (User.IsInRole("Administrator"))
                         {
-                            <li class="text-w">@Html.ActionLink("Edit", "Edit", new {@Model.Id})</li>
-                            <li class="text-d">@Html.ActionLink("Delete", "Delete", new {@Model.Id})</li>
+                            <li class="text-w">@Html.ActionLink("Edit", "EditFile", new {@Model.Id})</li>
+                            <li class="text-d">@Html.ActionLink("Delete", "DeleteFile", new {@Model.Id})</li>
                         }
                         <li class="text-s">@Html.ActionLink("Download", "DownloadFile", new {@Model.Id})</li>
                     </ul>

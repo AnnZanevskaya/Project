@@ -115,7 +115,7 @@ namespace MvcPL.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Delete(int? id)
+        public ActionResult DeleteFile(int? id)
         {
             int entityId = (id ?? 1);
             ViewBag.Id = entityId;
@@ -124,7 +124,7 @@ namespace MvcPL.Controllers
                 return HttpNotFound();
             return View(file.ToMvcFile());
         }
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteFile")]
         //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int? id)
         {
@@ -135,7 +135,7 @@ namespace MvcPL.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Edit(int? id)
+        public ActionResult EditFile(int? id)
         {
             int entityId = (id ?? 1);
             FileEntity file = fileService.GetEntity(entityId);
@@ -145,7 +145,7 @@ namespace MvcPL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(FileViewModel fileViewModel)
+        public ActionResult EditFile(FileViewModel fileViewModel)
         {
             fileService.Edit(fileViewModel.ToBllFile());
             return RedirectToAction("Index");
@@ -194,6 +194,18 @@ namespace MvcPL.Controllers
             return File(filename, contentType, downloadName);
         }
         [Authorize]
+
+        public ActionResult DownloadBytes(int? id)
+        {
+            int entityId = (id ?? 1);
+            FileEntity file = fileService.GetEntity(entityId);
+            if (file == null)
+                return HttpNotFound();
+            string filename = Server.MapPath("/Uploads/" + file.ToMvcFile().Path);
+            string contentType = file.FileType;
+            byte[] data = System.IO.File.ReadAllBytes(filename);
+            return File(data, contentType);
+        }
         public ActionResult SetRating(int? id, string submit)
         {
             int entityId = (id ?? 1);
@@ -205,26 +217,15 @@ namespace MvcPL.Controllers
                 if (file == null)
                     return HttpNotFound();
                 var rating = file.Rating;
-                if (submit == "like") 
+                if (submit == "like")
                     rating = rating + 1;
-                else 
+                else
                     rating = rating - 0.5;
                 file.Rating = rating;
                 fileService.Edit(file);
                 if (Request.IsAjaxRequest()) return PartialView("_ContentPartial", file.ToMvcFile());
                 return RedirectToAction("Content", new { id = entityId });
             }
-        }
-        public ActionResult DownloadBytes(int? id)
-        {
-            int entityId = (id ?? 1);
-            FileEntity file = fileService.GetEntity(entityId);
-            if (file == null)
-                return HttpNotFound();
-            string filename = Server.MapPath("/Uploads/" + file.ToMvcFile().Path);
-            string contentType = file.FileType;
-            byte[] data = System.IO.File.ReadAllBytes(filename);
-            return File(data, contentType);
         }
         private bool CanUserVote(int id, double rating)
         {

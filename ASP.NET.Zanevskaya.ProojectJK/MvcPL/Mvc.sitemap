@@ -7,10 +7,12 @@
     <mvcSiteMapNode title="Profile" controller="Manage" action="Index">
       <mvcSiteMapNode title="Edit Profile" controller="Manage" action="Edit"/>
     </mvcSiteMapNode>
+    <mvcSiteMapNode title="Administration - User Details" controller="Manage" action="UserDetails" preservedRouteParameters="id"/>
+    <mvcSiteMapNode title="Administration - Delete User" controller="Manage" action="DeleteUser" preservedRouteParameters="id"/>
     <mvcSiteMapNode title="Create File" controller="File" action="Upload"/>
     <mvcSiteMapNode title="Content" controller="File" action="Content" preservedRouteParameters="id">
-      <mvcSiteMapNode title="Edit File" controller="File" action="Edit" preservedRouteParameters="id"/>
-      <mvcSiteMapNode title="Delete File" controller="File" action="Delete" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Edit File" controller="File" action="EditFile" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Delete File" controller="File" action="DeleteFile" preservedRouteParameters="id"/>
     </mvcSiteMapNode>
     <mvcSiteMapNode title="Log In" controller="Account" action="Login"/>
     <mvcSiteMapNode title="Register" controller="Account" action="Register"/>

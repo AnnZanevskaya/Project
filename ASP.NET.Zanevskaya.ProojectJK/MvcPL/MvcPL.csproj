@@ -174,6 +174,7 @@
     <Compile Include="Infrastructure\CaptchaImage.cs" />
     <Compile Include="Infrastructure\Helpers\LoadingHelper.cs" />
     <Compile Include="Infrastructure\Helpers\RatingHelper.cs" />
+    <Compile Include="Infrastructure\Helpers\ReferrerPageNameAttribute.cs" />
     <Compile Include="Infrastructure\Helpers\ToCapitalLetterHelper.cs" />
     <Compile Include="Infrastructure\HighlightKeyWords.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
@@ -336,8 +337,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\File\Edit.cshtml" />
-    <Content Include="Views\File\Delete.cshtml" />
+    <Content Include="Views\File\EditFile.cshtml" />
+    <Content Include="Views\File\DeleteFile.cshtml" />
     <Content Include="Views\File\_CommentsDataPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -351,17 +352,15 @@
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\File\_ContentPartial.cshtml" />
-    <Content Include="Views\Manage\FileView.cshtml" />
+    <Content Include="Views\Manage\_FileView.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\File\_CommentsViewPartial.cshtml" />
-    <Content Include="Views\Manage\UserView.cshtml" />
+    <Content Include="Views\Manage\_UserView.cshtml" />
     <Content Include="Views\Manage\DeleteUser.cshtml" />
     <Content Include="Views\Manage\UserDetails.cshtml" />
-    <Content Include="Views\Manage\UserProfile.cshtml" />
+    <Content Include="Views\Manage\_UserProfile.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

@@ -3,18 +3,10 @@
 @{
     ViewBag.Title = "FileView";
 }
-<div class="col-lg-2  col-mg-2  col-sm-2  col-xs-2 ">
-    @using (Html.BeginForm("Upload", "File"))
-    {
-        <input class="btn btn-default btn-sm " type="submit" formmethod="get"  value="Add New Files | +" style="margin-top: 10px; margin-bottom: 30px;">
-    }
-</div>
-<div class="row">
+
+
     @if (Model.Any())
-    {
-
-
-        <div class="col-lg-9  col-mg-9  col-sm-9  col-xs-9 ">
+    { 
             <table class="table">
                 <thead>
                     <tr>
@@ -31,15 +23,12 @@
                             <td>@item.FileName</td>
                             <td>@item.CreationTime</td>
                             <td><input class="btn btn-primary btn-xs right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Content", "File", new {@item.Id})'" /></td>
-                            <td><input class="btn btn-warning btn-xs right" type="submit" value="Edit" formmethod="get" onclick="location.href = '@Url.Action("Edit", "File", new {@item.Id})'" /></td>
-                            <td><input class="btn btn-danger btn-xs right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("Delete", "File", new {@item.Id})'" /></td>
+                            <td><input class="btn btn-warning btn-xs right" type="submit" value="Edit" formmethod="get" onclick="location.href = '@Url.Action("EditFile", "File", new {@item.Id})'" /></td>
+                            <td><input class="btn btn-danger btn-xs right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("DeleteFile", "File", new {@item.Id})'" /></td>
                         </tr>
                     </tbody>
                 }
             </table>
-        </div>
-
-
     }
     else
     {
@@ -47,4 +36,3 @@
             <h3 class="text-info">No Files to show yet...</h3>
         </div>
     }
-</div>

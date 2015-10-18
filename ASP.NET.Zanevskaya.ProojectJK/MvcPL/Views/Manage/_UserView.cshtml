@@ -5,7 +5,6 @@
 <div class="row">
     @if (Model.Any())
     {
-
         <div class="col-lg-9 col-lg-offset-2 col-mg-9 col-mg-offset-2 col-sm-9 col-sm-offset-2 col-xs-9 col-xs-offset-2 ">
             <table class="table">
                 <thead>
@@ -18,8 +17,10 @@
                     <tbody>
                         <tr>
                             <td>@item.Email</td>
-                            <td><input class="btn btn-primary btn-xs right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Index", "Manage", new {pageName = "UserDetails", actionName ="DeleteUser"})'" /></td>
-                            <td><input class="btn btn-danger btn-xs right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("DeleteUser", "Manage", new {@item.Id})'" /></td>
+                            <td><input class="btn btn-primary btn-xs right" type="submit" value="Details" formmethod="get" 
+                                       onclick="location.href = '@Url.Action("UserDetails", new {id = item.Id})'" /></td>
+                            <td><input class="btn btn-danger btn-xs right" type="submit" value="Delete" formmethod="get" 
+                                       onclick="location.href = '@Url.Action("DeleteUser", "Manage", new {@item.Id})'" /></td>
                         </tr>
                     </tbody>
                 }

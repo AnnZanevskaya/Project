@@ -37,17 +37,17 @@ namespace DAL.Concrete
         public DalFile GetById(int key)
         {
             var ormuser = context.Set<File>().FirstOrDefault(file => file.Id == key);
-            return new DalFile()
-            {
-                Id = ormuser.Id,
-                Name = ormuser.Name,
-                Description = ormuser.Description,
-                FileType = ormuser.FileType,
-                UserId = ormuser.UserId,
-                Rating = ormuser.Rating,
-                Path = ormuser.Path,
-                CreationTime = ormuser.CreationTime
-            };
+                return new DalFile()
+                {
+                    Id = ormuser.Id,
+                    Name = ormuser.Name,
+                    Description = ormuser.Description,
+                    FileType = ormuser.FileType,
+                    UserId = ormuser.UserId,
+                    Rating = ormuser.Rating,
+                    Path = ormuser.Path,
+                    CreationTime = ormuser.CreationTime
+                };
         }
 
         public void Create(DalFile e)
