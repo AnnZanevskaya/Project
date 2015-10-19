@@ -42,7 +42,8 @@ namespace MvcPL.Controllers
                 files = files.Where(e => e.FileType.Contains(filter));
             if (!string.IsNullOrEmpty(sort) && sort != "date")
                 files = (sort == "title") ? files.OrderBy(e => e.Name) : files.OrderByDescending(e => e.Rating);
-
+            if (User.Identity.IsAuthenticated)
+              ViewBag.UserId = userService.GetEntity(53).Id;
             if (Request.IsAjaxRequest())
                 return PartialView(files.Select(file => file.ToMvcFile()).ToPagedList(pageNumber, pageSize));
             return View(files.Select(file => file.ToMvcFile()).ToPagedList(pageNumber, pageSize));

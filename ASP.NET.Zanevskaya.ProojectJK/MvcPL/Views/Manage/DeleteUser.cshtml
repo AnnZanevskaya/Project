@@ -8,7 +8,8 @@
     <h2 class="text-danger"> Are you sure to delete this User ?</h2>
     @using (Html.BeginForm("Delete", "Manage", new { id = Model.Id }))
     {
-        <input class="btn btn-success btn-xs right" type="button" value="No" formmethod="get" onclick="location.href = '@Url.Action("Index", "File")'" />
+
+            <input class="btn btn-success btn-xs right" type="button" value="No" formmethod="get" onclick="location.href = '@Url.Action("Index", "Manage")'" />
         <input class="btn btn-danger btn-xs right" type="submit" value="Yes" onclick="location.href = '@Url.Action("DeleteFile", "File", new{id = Model.Id})'" formmethod="POST" />
     }
     <hr/>

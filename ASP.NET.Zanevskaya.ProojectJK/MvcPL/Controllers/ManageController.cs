@@ -26,7 +26,9 @@ namespace MvcPL.Controllers
 
         public ActionResult Index()
         {
-               return View(userService.GetAllEntities().First(u => u.Email == User.Identity.Name).Profile.ToMvcProfile());
+            var profile = userService.GetAllEntities().First(u => u.Email == User.Identity.Name).Profile.ToMvcProfile();
+            profile.Email = User.Identity.Name;
+            return View(profile);
         }
          
         public ActionResult FileView()
@@ -75,8 +77,9 @@ namespace MvcPL.Controllers
             if (user != null)
             {
                 ViewBag.Id = userId;
-                ProfileEntity profile = user.Profile;
-                return View("UserDetails", profile.ToMvcProfile());
+                var profile = user.Profile.ToMvcProfile();
+                profile.Email = user.Email;
+                return View("UserDetails", profile);
             }
             return View("Error");
         }
@@ -96,11 +99,13 @@ namespace MvcPL.Controllers
         }
 
         [HttpGet]
+        [ReferrerPageName]
         public ActionResult DeleteUser(int? id)
         {
             int entityId = (id ?? 1);
             ViewBag.Id = entityId;
             UserEntity user = userService.GetEntity(entityId);
+            TempData["referrer"] = ControllerContext.RouteData.Values["referrer"];
             if (user == null)
             {
                 return HttpNotFound();
@@ -113,6 +118,10 @@ namespace MvcPL.Controllers
         {
             int entityId = (id ?? 1);
             userService.Delete(entityId);
+            if (TempData["referrer"] != null)
+            {
+                return Redirect(TempData["referrer"].ToString());
+            }
             return RedirectToAction("Index");
         }
 

@@ -33,14 +33,14 @@
                     }
 
                 </div>
-                @*<div class="col-lg-3 col-mg-3 col-sm-3 col-xs-3" style="margin-top: 40px">
-                    <input class="btn btn-primary btn-sm right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Content", new {@item.Id})'" />
-                    @if (User.IsInRole("Administrator"))
+                <div class="col-lg-3 col-mg-3 col-sm-3 col-xs-3" style="margin-top: 40px">
+                    @*<input class="btn btn-primary btn-sm right" type="submit" value="Details" formmethod="get" onclick="location.href = '@Url.Action("Content", new {@item.Id})'" />*@
+                    @if (User.IsInRole("Administrator") || ViewBag.UserId == item.UserId)
                     {
-                        <input class="btn btn-warning btn-sm right" type="submit" value="Edit" formmethod="get" onclick="location.href = '@Url.Action("Edit", new {@item.Id})'" />
-                        <input class="btn btn-danger btn-sm right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("Delete", new {@item.Id})'" />
+                        <input class="btn btn-warning btn-sm right" type="submit" value="Edit" formmethod="get" onclick="location.href = '@Url.Action("EditFile", new {@item.Id})'" />
+                        <input class="btn btn-danger btn-sm right" type="submit" value="Delete" formmethod="get" onclick="location.href = '@Url.Action("DeleteFile", new {@item.Id})'" />
                     }
-                </div>*@
+                </div>
             </div>
         }
     }

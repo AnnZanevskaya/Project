@@ -17,5 +17,6 @@ namespace MvcPL.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime LastUpdate { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -3,7 +3,7 @@
         @if (Request.IsAuthenticated)
         {
             <text>
-                <li>Hello, @Html.ActionLink(User.Identity.Name, "Index", "Manage")!</li>
+                <li>Hello, @Html.ActionLink(User.Identity.Name.Split('@')[0], "Index", "Manage")!</li>
                 <li>
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
